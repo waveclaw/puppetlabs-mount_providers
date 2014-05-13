@@ -22,6 +22,26 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
     mount_with_options(resource[:device], resource[:name])
   end
 
+  def type
+    entry[:type]
+  end
+
+  def type=(value)
+    unmount(resource[:name])
+    mount_with_options(resource[:device], resource[:name])
+    @property_hash[:type] = value
+  end
+
+  def options
+    entry[:options]
+  end
+
+  def options=(value)
+    unmount(resource[:name])
+    mount_with_options(resource[:device], resource[:name])
+    @property_hash[:options] = value
+  end
+
   def handle_notification
     remount if resource[:ensure] == :present and exists?
   end
