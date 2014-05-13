@@ -5,10 +5,12 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
 
   def create
     mount_with_options(resource[:device], resource[:name])
+    @property_hash[:ensure] = :present
   end
 
   def destroy
     unmount(resource[:name])
+    @property_hash.clear
   end
 
   def device
@@ -22,6 +24,20 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
 
   def handle_notification
     remount if resource[:ensure] == :present and exists?
+  end
+
+  def self.instances
+    raise Puppet::DevError, "Mountpoint instances method must be overridden by the provider"
+  end
+
+  def self.prefetch(resources)
+    require 'ruby-debug'; debugger
+    mounts = instances
+    resources.keys.each do |name|
+      if provider = mounts.find { |mount| mount[:name] == name }
+        resources[name].provider = provider
+      end
+    end
   end
 
   private

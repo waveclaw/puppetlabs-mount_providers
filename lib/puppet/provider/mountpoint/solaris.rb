@@ -15,6 +15,13 @@ Puppet::Type.type(:mountpoint).provide(:solaris, :parent => Puppet::Provider::Mo
   confine :operatingsystem => :solaris
   defaultfor :operatingsystem => :solaris
 
+  def self.instances
+    mount.split("\n").find do |line|
+     line =~ /^(\S*) on (\S*)(?: (\S+))?/
+     {:name => $1, :device => $2, :options => $3}
+    end
+  end
+
   private
 
   def entry

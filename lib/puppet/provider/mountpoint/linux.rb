@@ -15,6 +15,18 @@ Puppet::Type.type(:mountpoint).provide(:linux, :parent => Puppet::Provider::Moun
   confine :kernel => :linux
   defaultfor :kernel => :linux
 
+  def self.instances
+    mounts = []
+     lines = mount.split("\n") 
+     lines.each do |line|
+       line =~ /^(\S*) on (\S*) type (\S*) (?:\((\S+)\))?/ 
+       mounts << new(:ensure => :present, :device => $1, :name => File.expand_path($2), :options => $4)
+      end
+     mounts
+  end
+
+  mk_resource_methods
+
   private
 
   def entry
