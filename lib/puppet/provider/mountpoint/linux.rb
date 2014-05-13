@@ -17,12 +17,12 @@ Puppet::Type.type(:mountpoint).provide(:linux, :parent => Puppet::Provider::Moun
 
   def self.instances
     mounts = []
-     lines = mount.split("\n") 
+     lines = mount.split("\n")
      lines.each do |line|
-       line =~ /^(\S*) on (\S*) type (\S*) (?:\((\S+)\))?/ 
-       mounts << new(:ensure  => :present, 
-                     :device  => $1, 
-                     :name    => File.expand_path($2), 
+       line =~ /^(\S*) on (\S*) type (\S*) (?:\((\S+)\))?/
+       mounts << new(:ensure  => :present,
+                     :device  => $1,
+                     :name    => File.expand_path($2),
                      :type    => $3,
                      :options => $4)
       end
