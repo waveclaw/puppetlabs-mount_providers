@@ -22,14 +22,14 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
     mount_with_options(resource[:device], resource[:name])
   end
 
-  def type
-    entry[:type]
+  def fstype
+    entry[:fstype]
   end
 
-  def type=(value)
+  def fstype=(value)
     unmount(resource[:name])
     mount_with_options(resource[:device], resource[:name])
-    @property_hash[:type] = value
+    @property_hash[:fstype] = value
   end
 
   def options
@@ -51,7 +51,6 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
   end
 
   def self.prefetch(resources)
-    require 'ruby-debug'; debugger
     mounts = instances
     resources.keys.each do |name|
       if provider = mounts.find { |mount| mount[:name] == name }
@@ -62,8 +61,16 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
 
   private
 
+  def fsflag
+    raise Puppet::DevError, "Mountpoint fstype flag must be overridden by the provider"
+  end
+
   def mount_with_options(*args)
     options = []
+    if resource[:fstype]
+      options << fsflag
+      options << resource[:fstype]
+    end
     if resource[:options] && resource[:options] != :absent
       options << '-o'
       options << (resource[:options].is_a?(Array) ?  resource[:options].join(',') : resource[:options])

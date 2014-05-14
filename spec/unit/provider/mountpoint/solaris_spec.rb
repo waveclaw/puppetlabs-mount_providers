@@ -85,6 +85,14 @@ describe Puppet::Type.type(:mountpoint).provider(:solaris) do
     end
   end
 
+  describe "when fstypes are specificed" do
+    it "should pass the specified filesystem type to the mount command when mounting" do
+      resource[:fstype] = "ufs"
+      provider.expects(:mount).with("-F", "ufs", resource[:device], resource[:name])
+      provider.create
+    end
+  end
+
   describe "when syncing" do
     before :each do
       # stub so we can apply a catalog without trying to write state.yaml

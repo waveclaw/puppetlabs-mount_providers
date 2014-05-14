@@ -74,4 +74,13 @@ describe Puppet::Type.type(:mountpoint).provider(:linux) do
       provider.should be_exists
     end
   end
+
+  describe "when fstypes are specificed" do
+    it "should pass the specified filesystem type to the mount command when mounting" do
+      resource[:fstype] = "ext"
+      provider.expects(:mount).with("-t", "ext", resource[:device], resource[:name])
+      provider.create
+    end
+  end
+
 end
