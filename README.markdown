@@ -22,17 +22,12 @@ This module is installable from the Puppet Forge using the `puppet module` comma
 Source
 ======
 
- * [mount\_providers](https://github.com/puppetlabs/puppetlabs-mount_providers)
+ * [mount\_providers](https://github.com/waveclaw/puppetlabs-mount_providers)
 
 Known Issues
 ============
 
-This module will cause `puppet describe` to throw an error on Puppet versions
-between 2.6.8 and 2.6.14.  The error is:
+This module will generate errors on AIX.
 
-    root@ubuntu-10:/etc/puppetlabs/puppet/modules# puppet describe mounttab
-    Could not run: Could not autoload /etc/puppetlabs/puppet/modules/puppetlabs-mount-providers/lib/puppet/type/mountpoint.rb:undefined method 'downcase' for nil:NilClass
-
-Puppet has been patched to fix this bug.  Please see [Issue
-13070](http://projects.puppetlabs.com/issues/13070) for details about when this
-fix has been released.
+Puppet < 3.0.1 is unsupported. Puppet 2.7 should work but earlier will not 
+due to the changes to a prefetch type.

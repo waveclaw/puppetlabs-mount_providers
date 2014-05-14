@@ -1,3 +1,8 @@
+0.1.0 2014-05-14 - JD Powell <waveclaw@photmail.com>
+* Compatibility with Puppet 3
+* Add primitive AIX support
+* Change behavior of options and bump version for change
+
 0.0.2 2012-10-10 - Jeff McCune <jeff@puppetlabs.com>
 * (#3530) Fix mountpoint; make it refreshable
 
