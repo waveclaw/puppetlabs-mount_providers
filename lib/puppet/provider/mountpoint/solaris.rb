@@ -17,7 +17,7 @@ Puppet::Type.type(:mountpoint).provide(:solaris, :parent => Puppet::Provider::Mo
   confine :operatingsystem => :solaris
   defaultfor :operatingsystem => :solaris
 
-  @mountline =  '^(\S*) on (\S*)(?: (\S+))?'
+  @mountline =  /^(\S*) on (\S*)(?: (\S+))?/
   def self.mountline
     @mountline
   end
@@ -30,13 +30,16 @@ Puppet::Type.type(:mountpoint).provide(:solaris, :parent => Puppet::Provider::Mo
     mounts = []
     lines = mount.split("\n")
     lines.each do |line|
-     line =~ /#{self.mountline}/
-     mounts << new(:name    => File.expand_path($1), 
-                   :device  => $2, 
-                   :options => $3.split(','))
+     if self.mountline.match(line)
+       mounts << new(:name    => File.expand_path($1), 
+                     :device  => $2, 
+                     :options => $3.split(','))
+     end
     end
     mounts
   end
+
+  #mk_resource_methods
 
   private
 
@@ -52,7 +55,10 @@ Puppet::Type.type(:mountpoint).provide(:solaris, :parent => Puppet::Provider::Mo
     line = mount.split("\n").find do |line|
       File.expand_path(line.split.first) == File.expand_path(resource[:name])
     end
-    line =~ /#{mountline}/
-    {:name => $1, :device => $2, :options => $3}
+    if mountline.match(line)
+     {:name => $1, :device => $2, :options => $3}
+    else
+      {:name => nil }
+    end
   end
 end

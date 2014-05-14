@@ -18,6 +18,7 @@ Puppet::Type.type(:mountpoint).provide(:aix, :parent => Puppet::Provider::Mountp
   confine :kernel => :aix
   defaultfor :kernel => :aix
 
+
   @mountline =  /^(\S*)\s+(\S+)\s+(\S+)\s+(\S+)\s+[[:alpha:]]{3} \d+ \d\d:\d\d (.+)$/
   def self.mountline
     @mountline
@@ -41,7 +42,11 @@ Puppet::Type.type(:mountpoint).provide(:aix, :parent => Puppet::Provider::Mountp
     mounts
   end
 
-  mk_resource_methods
+  def node=(value)
+    unmount(resource[:name])
+    mount_with_options(resource[:device], resource[:name])
+  end
+
 
   private
 

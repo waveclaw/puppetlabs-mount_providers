@@ -23,7 +23,7 @@ See the discussion under the mounttab type for usage."
     end
   end
 
-  newproperty(:node, :requires_features => :aix) do
+  newproperty(:node) do
     desc "The NFS server for AIX NFS mounts."
     validate do |value|
       raise Puppet::Error, "node is not allowed to contain whitepace" if value =~ /\s/ 
@@ -42,7 +42,7 @@ See the discussion under the mounttab type for usage."
     end
   end
 
-  newparam(:options) do
+  newproperty(:options, :array_matching => :all) do
     desc "Mount options for the mounts, as they would appear in the fstab."
 
     validate do |value|

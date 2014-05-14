@@ -5,12 +5,10 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
 
   def create
     mount_with_options(resource[:device], resource[:name])
-    @property_hash[:ensure] = :present
   end
 
   def destroy
     unmount(resource[:name])
-    @property_hash.clear
   end
 
   def device
@@ -29,7 +27,6 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
   def fstype=(value)
     unmount(resource[:name])
     mount_with_options(resource[:device], resource[:name])
-    @property_hash[:fstype] = value
   end
 
   def options
@@ -39,7 +36,14 @@ class Puppet::Provider::Mountpoint < Puppet::Provider
   def options=(value)
     unmount(resource[:name])
     mount_with_options(resource[:device], resource[:name])
-    @property_hash[:options] = value
+  end
+
+  def node
+    entry[:node]
+  end
+
+  def node=(value)
+    nil
   end
 
   def handle_notification

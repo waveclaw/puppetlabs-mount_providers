@@ -15,6 +15,10 @@ describe Puppet::Type.type(:mounttab).provider(:parsed) do
     pending "This test only works on Solaris" unless Facter.value(:operatingsystem) == 'Solaris'
     @provider.default_target.should == '/etc/vfstab'
   end
+  it "should default to /etc/filesystems on AIX" do
+    pending "This test only works on AIX" unless Facter.value(:operatingsystem) == 'AIX'
+    @provider.default_target.should == '/etc/vfstab'
+  end
 
   it "should default to /etc/fstab on anything else" do
     pending "This test does not work on Solaris" if Facter.value(:operatingsystem) == 'Solaris'

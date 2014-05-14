@@ -22,13 +22,13 @@ describe mountpoint do
 
   describe "when validating attributes" do
 
-    [:name, :provider, :options].each do |param|
+    [:name, :provider].each do |param|
       it "should have a #{param} parameter" do
         @class.attrtype(param).should == :param
       end
     end
 
-    [:ensure, :device].each do |param|
+    [:ensure, :device, :options, :node].each do |param|
       it "should have a #{param} property" do
         @class.attrtype(param).should == :property
       end
