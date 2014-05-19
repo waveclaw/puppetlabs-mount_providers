@@ -1,16 +1,8 @@
 require 'puppet/type'
 
-[ 'type', 'provider' ].each do |path|
-  begin
-    require "puppet/#{path}/mountpoint"
-  rescue LoadError => detail
-    require 'pathname' # JJM WORK_AROUND #14073 and #7788
-    require Pathname.new(__FILE__).dirname + "../../../" + "puppet/#{path}/mountpoint"
-  end
-end
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'puppet','provider','genericmountpoint'))
 
-
-Puppet::Type.type(:mountpoint).provide(:aix, :parent => Puppet::Provider::Mountpoint) do
+Puppet::Type.type(:mountpoint).provide(:aix, :parent => Puppet::Provider::Genericmountpoint) do
   desc "Provide a mountpoint type for the AIX OS"
 
   commands :mount => "mount", :unmount => "umount"

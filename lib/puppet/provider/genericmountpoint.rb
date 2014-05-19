@@ -1,4 +1,4 @@
-class Puppet::Provider::Mountpoint < Puppet::Provider
+class Puppet::Provider::Genericmountpoint < Puppet::Provider
   def exists?
     ! entry[:name].nil?
   end
