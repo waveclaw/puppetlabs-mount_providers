@@ -1,0 +1,24 @@
+# https://gitlab.com/gitlab-org/gitlab-ci/blob/master/doc/examples/test-and-deploy-ruby-application-to-heroku.md
+
+before_script:
+  - export MY_VAR=something
+#  - apt-get update
+#  - apt-get --assume-yes upgrade -y
+#  - apt-get --assume-yes install -y bundler
+  - gem install bundler
+  - bundle install --path .bundle --binstubs
+
+test:
+  script:
+  - bin/rake test
+# test does syntax spec and coverage as of rspec-puppet 1.0.1
+
+# puppet module build and upload with dpl
+production:
+  type: deploy
+  script:
+  - bindle install dpl --path .bundle --binstubs
+  - bin/puppet module build
+#  - bin/dpl --provider=puppetforge  --user=puppetlabs --password=s3cr3t --url= https://forgeapi.puppetlabs.com/
+  only:
+  - tags

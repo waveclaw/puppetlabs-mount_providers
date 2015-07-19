@@ -1,4 +1,9 @@
-pkg/
-.DS_Store
-metadata.json
-coverage/
+.*.sw?
+pkg
+spec/fixtures
+.rspec_system
+.vagrant
+.bundle
+vendor
+!spec/fixtures/hiera.yaml
+!spec/fixtures/hieradata/default.yaml

@@ -1,0 +1,142 @@
+{
+  "name": "waveclaw-mount_providers",
+  "version": "0.1.0",
+  "source": "git://github.com/waveclaw/puppetlabs-mount_providers.git",
+  "author": "Puppet Labs",
+  "license": "Apache License, Version 2.0",
+  "summary": "The mounttab and mountpoint resource type",
+  "description": "The mounttab and mountpoint resource type",
+  "project_page": "https://github.com/waveclaw/puppetlabs-mount_providers",
+  "dependencies": [
+
+  ],
+  "types": [
+    {
+      "name": "mounttab",
+      "doc": "Manages entries in the filesystem table. This is usually, but not\nnecessarily, used in conjunction with the mountpoint type to manage both the\ncurrent-running state of mounts (mountpoint) with the fstab entries which load\nthem at boot time (mounttab). An easy way to manage both at the same time\nis with a defined type that wraps both resources in one call, since the three most\nimportant options (the device name, the mountpoint, and any mount options) are\nshared between the two types.",
+      "properties": [
+        {
+          "name": "ensure",
+          "doc": "The basic property that the resource should be in.\n\nValid values are `present`, `absent`. "
+        },
+        {
+          "name": "device",
+          "doc": "The device providing the mount.  This can be whatever\ndevice is supporting by the mount, including network\ndevices or devices specified by UUID rather than device\npath, depending on the operating system.\n\n"
+        },
+        {
+          "name": "blockdevice",
+          "doc": "The device to fsck.  This is property is only valid\non Solaris, and in most cases will default to the correct\nvalue.\n\n"
+        },
+        {
+          "name": "fstype",
+          "doc": "The mount type.  Valid values depend on the\noperating system.  This is a required option.\n\n"
+        },
+        {
+          "name": "options",
+          "doc": "Mount options for the mount.  More than one option should\nbe specified as an array\n\n"
+        },
+        {
+          "name": "pass",
+          "doc": "The pass in which the mount is checked.\n\n"
+        },
+        {
+          "name": "atboot",
+          "doc": "Whether to mount the mount at boot.  Not all platforms\nsupport this.\n\nValid values are `yes` (also called `true`), `no` (also called `false`). "
+        },
+        {
+          "name": "dump",
+          "doc": "Whether to dump the mount.  Not all platform support this.\nValid values are `1` or `0`. or `2` on FreeBSD, Default is `0`.\n\nValues can match `/(0|1)/`."
+        },
+        {
+          "name": "target",
+          "doc": "The file in which to store the mount table.  Only used by\nthose providers that write to disk.\n\n"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "doc": "The mount path for the mount.\n\n"
+        }
+      ],
+      "providers": [
+        {
+          "name": "parsed",
+          "doc": ""
+        }
+      ]
+    },
+    {
+      "name": "mountpoint",
+      "doc": "Manages currently mounted volumes, i.e. the live state of the filesystem.\nSee the discussion under the mounttab type for usage.",
+      "properties": [
+        {
+          "name": "ensure",
+          "doc": "The basic property that the resource should be in.\n\nValid values are `present`, `absent`. "
+        },
+        {
+          "name": "device",
+          "doc": "The device providing the mount.  This can be whatever device is supporting by the mount, including network devices or devices specified by UUID rather than device path, depending on the operating system.  If you already have an entry in your fstab (or you use the mounttab type to create such an entry), it is generally not necessary to specify the fstype explicitly\n\n"
+        },
+        {
+          "name": "fstype",
+          "doc": "The mount type.  Valid values depend on the operating system.  If you already have an entry in your fstab (or you use the mounttab type to create such an entry), it is generally not necessary to specify the fstype explicitly\n\n"
+        },
+        {
+          "name": "node",
+          "doc": "The NFS server for AIX NFS mounts.\n\n"
+        },
+        {
+          "name": "options",
+          "doc": "Mount options for the mounts, as they would appear in the fstab.\n\n"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "doc": "The path to the mount point.\n\n"
+        },
+        {
+          "name": "remounts",
+          "doc": "Whether the mount can be remounted  `mount -o remount`.  If\nthis is false, then the filesystem will be unmounted and remounted\nmanually, which is prone to failure.\n\nValid values are `true`, `false`. "
+        }
+      ],
+      "providers": [
+        {
+          "name": "aix",
+          "doc": "Provide a mountpoint type for the AIX OS\n\n* Required binaries: `mount`, `umount`.\n* Default for `kernel` == `aix`."
+        },
+        {
+          "name": "linux",
+          "doc": "Provide a mountpoint type for Linux Operating Systems.\n\n* Required binaries: `mount`, `umount`.\n* Default for `kernel` == `linux`."
+        },
+        {
+          "name": "solaris",
+          "doc": "Provide a mountpoint type for Solaris\n\n* Required binaries: `mount`, `umount`.\n* Default for `operatingsystem` == `solaris`."
+        }
+      ]
+    }
+  ],
+  "checksums": {
+    "CHANGELOG": "95a973d1f196ac99da3d416a3f8fe6f1",
+    "Modulefile": "9d9633bfba4080c70f6ad7f9441bf332",
+    "README.markdown": "f5ff1db635784ede8e771eac2fee3e76",
+    "README_DEVELOPER.markdown": "512202ac395879758eb63fd1b179c2bd",
+    "Rakefile": "d2c0725a2e84521a5dd812944f5b4c9b",
+    "lib/puppet/provider/mountpoint/aix.rb": "ca2c34161cfabc1a0b36f71559beff9f",
+    "lib/puppet/provider/mountpoint/linux.rb": "bb5a81928a3762e32be054d1d1d70e49",
+    "lib/puppet/provider/mountpoint/solaris.rb": "ace1faa31448100dd42855b94f6947fa",
+    "lib/puppet/provider/mountpoint.rb": "6e0f7301cd6728095dc5257911a594e7",
+    "lib/puppet/provider/mounttab/parsed.rb": "1ca6b4fb0e9a5b6599777a268ee21cbb",
+    "lib/puppet/type/mountpoint.rb": "b135ba21b1f762da071ddaa5e708b153",
+    "lib/puppet/type/mounttab.rb": "f036f26730a3299fa548485383317a68",
+    "manifests/do.pp": "10390d1f7ca72ff0d2ea013a040435fd",
+    "manifests/init.pp": "cec3ce8e5a392a69bee48c5e8dda24ab",
+    "spec/spec_helper.rb": "836dc080d915d45ee9577cdde655d1b8",
+    "spec/unit/provider/mountpoint/aix_spec.rb": "5d72117b069a1f8e6c39f3fc68064d8e",
+    "spec/unit/provider/mountpoint/linux_spec.rb": "ab09884b4d739a01d596a7c511c2e29a",
+    "spec/unit/provider/mountpoint/solaris_spec.rb": "c7d97643fc772306be546e781ba6f843",
+    "spec/unit/provider/mounttab/parsed_spec.rb": "653bbc8bdb2e5ecea1aa9528d83e5ee0",
+    "spec/unit/type/mountpoint_spec.rb": "b3106432a11096736476acb4db055287",
+    "spec/unit/type/mounttab_spec.rb": "ef67202d36f8967c8e8c156ad5eada69"
+  }
+}
