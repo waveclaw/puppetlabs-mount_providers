@@ -1,7 +1,7 @@
 # https://gitlab.com/gitlab-org/gitlab-ci/blob/master/doc/examples/test-and-deploy-ruby-application-to-heroku.md
 
 before_script:
-  - export MY_VAR=something
+  - export GIT_SSL_NO_VERIFY=1
 #  - apt-get update
 #  - apt-get --assume-yes upgrade -y
 #  - apt-get --assume-yes install -y bundler
